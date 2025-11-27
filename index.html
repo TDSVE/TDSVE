@@ -10,44 +10,41 @@
         body {
             background: black;
             margin: 0;
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .xxx img {
-            width: 100%;
+        img {
+            width: 60%;
             height: auto;
-            display: block;
-            margin: 0 auto;
+            opacity: 0;
+            animation: fadeIn 5s forwards;
         }
 
-        .comingsoon {
-            margin-top: 20px;
-            font-size: 32px;
-            letter-spacing: 2px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 
     <script>
-        // Redirect after 5 seconds
+        // Redirect after 5 seconds (fade-in duration)
         setTimeout(function () {
             window.location.href = "https://www.linkedin.com/company/taslaman-design-services-ltd";
         }, 5000);
     </script>
+
 </head>
 
 <body>
-    <div class="xxx">
-        <img src="2025-11-25 LOGO WIP.png" alt="TDS">
-    </div>
-
-    <div class="comingsoon">
-        COMING SOON
-    </div>
+    <img src="2025-11-25 LOGO WIP.png" alt="TDS">
 </body>
 
 </html>
+
+
 
 
 
