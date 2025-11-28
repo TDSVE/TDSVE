@@ -12,151 +12,124 @@
             margin: 0;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
             color: white;
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        .container {
+        .wrapper {
             text-align: center;
             width: 100%;
-            padding: 0 0;
+            padding: 0 10px;
+            box-sizing: border-box;
         }
 
-        /* Full-width logo, centered, fading in over 8s */
-        #logo {
+        /* Logo full width and centered */
+        .logo-link {
+            display: block;
+            width: 100%;
+        }
+
+        .logo {
             width: 100%;
             height: auto;
             opacity: 0;
-            animation: logoFadeIn 8s forwards;
-            cursor: pointer;
+            animation: logoFade 5s forwards;
             display: block;
+            margin: 0 auto;
         }
 
-        a#logoLink {
-            display: block;
-            width: 100%;
-        }
-
-        #websiteText {
-            margin-top: 20px;
-            font-size: 28px;
+        /* Bahnschrift-style text */
+        .bahnschrift {
+            font-family: "Bahnschrift Light", "Bahnschrift", "Segoe UI", Arial, sans-serif;
             letter-spacing: 2px;
-            opacity: 0;
         }
 
-        #contact {
-            margin-top: 16px;
-            font-size: 20px;
+        #website-coming-soon {
+            margin-top: 20px;
             opacity: 0;
-            transition: opacity 3s ease;
+            font-size: 24px;
+            animation: textFade 3s forwards;
+            animation-delay: 5s; /* start after logo fade */
         }
 
-        #moreButton {
-            margin-top: 24px;
-            padding: 12px 28px;
+        #contact-line {
+            margin-top: 15px;
+            opacity: 0;
             font-size: 18px;
-            border-radius: 999px;
-            border: 1px solid #ffffff;
+            animation: textFade 3s forwards;
+            animation-delay: 8s; /* after WEBSITE COMING SOON */
+        }
+
+        .button-container {
+            margin-top: 25px;
+            opacity: 0;
+            animation: textFade 3s forwards;
+            animation-delay: 11s; /* after contact line */
+        }
+
+        .more-button {
+            padding: 12px 30px;
+            border-radius: 4px;
+            border: 1px solid white;
             background: transparent;
             color: white;
+            font-size: 16px;
             cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        #moreButton:hover {
-            transform: scale(1.03);
+        .more-button:hover {
+            background: white;
+            color: black;
         }
 
-        .visible {
-            opacity: 1;
+        @keyframes logoFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        @keyframes logoFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        @keyframes textFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <!-- Clickable logo → LinkedIn -->
-        <a id="logoLink" href="https://www.linkedin.com/company/taslaman-design-services-ltd">
-            <img id="logo" src="2025-11-25 LOGO WIP.png" alt="Taslaman Design Services Logo">
+    <div class="wrapper">
+        <!-- Clickable full-width logo -->
+        <a class="logo-link" href="https://www.linkedin.com/company/taslaman-design-services-ltd" target="_blank" rel="noopener noreferrer">
+            <img class="logo" src="2025-11-25 LOGO WIP.png" alt="Taslaman Design Services Logo">
         </a>
 
-        <!-- Step 2: WEBSITE COMING SOON (typed) -->
-        <div id="websiteText"></div>
+        <!-- Step 2: WEBSITE COMING SOON -->
+        <div id="website-coming-soon" class="bahnschrift">
+            WEBSITE COMING SOON
+        </div>
 
-        <!-- Step 3: Contact text (fade in) -->
-        <div id="contact">Contact Us: mail@tdsve.co.uk</div>
+        <!-- Step 3: Contact line -->
+        <div id="contact-line" class="bahnschrift">
+            Contact Us: mail@tdsve.co.uk
+        </div>
 
-        <!-- Step 4: Button appears and redirects to LinkedIn -->
-        <button id="moreButton">Press for More</button>
+        <!-- Step 4: Button -->
+        <div class="button-container">
+            <button class="more-button"
+                onclick="window.location.href='https://www.linkedin.com/company/taslaman-design-services-ltd'">
+                Press for More
+            </button>
+        </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const websiteTextEl = document.getElementById("websiteText");
-            const contactEl = document.getElementById("contact");
-            const buttonEl = document.getElementById("moreButton");
-
-            const websiteString = "WEBSITE COMING SOON";
-
-            // Step 2 start time: 8s fade + 2s pause = 10,000 ms
-            const startTypingDelay = 10000; // ms
-
-            setTimeout(function () {
-                // Make the text area visible before typing
-                websiteTextEl.style.opacity = 1;
-
-                let index = 0;
-                const totalDuration = 5000; // 5 seconds to type full string
-                const interval = totalDuration / websiteString.length;
-
-                const typer = setInterval(function () {
-                    websiteTextEl.textContent = websiteString.slice(0, index + 1);
-                    index++;
-
-                    if (index === websiteString.length) {
-                        clearInterval(typer);
-
-                        // Step 3: 2s pause after typing finishes, then fade in contact (over 3s via CSS transition)
-                        setTimeout(function () {
-                            contactEl.classList.add("visible");
-                        }, 2000);
-
-                        // Step 4: After contact fade in (3s) + 3s pause = 6s after previous timeout
-                        setTimeout(function () {
-                            buttonEl.classList.add("visible");
-                        }, 2000 + 3000 + 3000); // 2s pause + 3s fade + 3s pause
-                    }
-                }, interval);
-            }, startTypingDelay);
-
-            // Button redirects to LinkedIn
-            buttonEl.addEventListener("click", function () {
-                window.location.href = "https://www.linkedin.com/company/taslaman-design-services-ltd";
-            });
-        });
-    </script>
 
 </body>
 
 </html>
-
-
-
-
-
 
 
 
