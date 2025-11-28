@@ -12,70 +12,148 @@
             margin: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
             color: white;
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        .wrapper {
+        .container {
             text-align: center;
-            animation: fadeOut 1s ease forwards;
-            animation-delay: 5s; /* fade out AFTER the fade-in */
+            width: 100%;
+            padding: 0 0;
         }
 
-        img {
-            width: 60%;
+        /* Full-width logo, centered, fading in over 8s */
+        #logo {
+            width: 100%;
             height: auto;
             opacity: 0;
-            animation: fadeInZoom 5s forwards;
+            animation: logoFadeIn 8s forwards;
+            cursor: pointer;
+            display: block;
         }
 
-        #comingsoon {
+        a#logoLink {
+            display: block;
+            width: 100%;
+        }
+
+        #websiteText {
             margin-top: 20px;
-            opacity: 0;
             font-size: 28px;
             letter-spacing: 2px;
-            animation: fadeText 5s forwards;
+            opacity: 0;
         }
 
-        @keyframes fadeInZoom {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        #contact {
+            margin-top: 16px;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 3s ease;
         }
 
-        @keyframes fadeText {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        #moreButton {
+            margin-top: 24px;
+            padding: 12px 28px;
+            font-size: 18px;
+            border-radius: 999px;
+            border: 1px solid #ffffff;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.2s ease;
         }
 
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
+        #moreButton:hover {
+            transform: scale(1.03);
+        }
+
+        .visible {
+            opacity: 1;
+        }
+
+        @keyframes logoFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
-
-    <script>
-        // Redirect after fade-out completes
-        setTimeout(function () {
-            window.location.href = "https://www.linkedin.com/company/taslaman-design-services-ltd";
-        }, 6000); // 5s fade-in + 1s fade-out
-    </script>
-
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <img src="2025-11-25 LOGO WIP.png" alt="TDS">
-        <div id="comingsoon">COMING SOON</div>
+    <div class="container">
+        <!-- Clickable logo → LinkedIn -->
+        <a id="logoLink" href="https://www.linkedin.com/company/taslaman-design-services-ltd">
+            <img id="logo" src="2025-11-25 LOGO WIP.png" alt="Taslaman Design Services Logo">
+        </a>
+
+        <!-- Step 2: WEBSITE COMING SOON (typed) -->
+        <div id="websiteText"></div>
+
+        <!-- Step 3: Contact text (fade in) -->
+        <div id="contact">Contact Us: mail@tdsve.co.uk</div>
+
+        <!-- Step 4: Button appears and redirects to LinkedIn -->
+        <button id="moreButton">Press for More</button>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const websiteTextEl = document.getElementById("websiteText");
+            const contactEl = document.getElementById("contact");
+            const buttonEl = document.getElementById("moreButton");
+
+            const websiteString = "WEBSITE COMING SOON";
+
+            // Step 2 start time: 8s fade + 2s pause = 10,000 ms
+            const startTypingDelay = 10000; // ms
+
+            setTimeout(function () {
+                // Make the text area visible before typing
+                websiteTextEl.style.opacity = 1;
+
+                let index = 0;
+                const totalDuration = 5000; // 5 seconds to type full string
+                const interval = totalDuration / websiteString.length;
+
+                const typer = setInterval(function () {
+                    websiteTextEl.textContent = websiteString.slice(0, index + 1);
+                    index++;
+
+                    if (index === websiteString.length) {
+                        clearInterval(typer);
+
+                        // Step 3: 2s pause after typing finishes, then fade in contact (over 3s via CSS transition)
+                        setTimeout(function () {
+                            contactEl.classList.add("visible");
+                        }, 2000);
+
+                        // Step 4: After contact fade in (3s) + 3s pause = 6s after previous timeout
+                        setTimeout(function () {
+                            buttonEl.classList.add("visible");
+                        }, 2000 + 3000 + 3000); // 2s pause + 3s fade + 3s pause
+                    }
+                }, interval);
+            }, startTypingDelay);
+
+            // Button redirects to LinkedIn
+            buttonEl.addEventListener("click", function () {
+                window.location.href = "https://www.linkedin.com/company/taslaman-design-services-ltd";
+            });
+        });
+    </script>
 
 </body>
 
 </html>
+
+
 
 
 
